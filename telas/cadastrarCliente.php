@@ -96,41 +96,43 @@
                 <button type="submit" class="btn btn-primary">Cadastrar
                     <?php
                         
-                        try{
-                            $cpf          = $_POST['tCPF'];
-                            $nome         = $_POST['tNome'];
-                            $telefone     = $_POST['tTelefone'];
-                            $rua          = $_POST['tRua'];
-                            $numero       = $_POST['tNumero'];
-                            $complemento  = $_POST['tComplemento'];
-                            $cep          = $_POST['tCEP'];
-                            $bairro       = $_POST['tBairro'];
-                            $cidade       = $_POST['tCidade'];
-                            $estado       = $_POST['tEstado'];
-                            $pais         = $_POST['tPais'];
-                            $totalCompras = $_POST['tCompras'];
-                            //Criando o objeto endereco
-                            $cadastrar->cadastrarEndereco($conexao, 
-                                                    $rua, 
-                                                    $numero, 
-                                                    $complemento, 
-                                                    $bairro,
-                                                    $cep,
-                                                    $cidade,
-                                                    $estado,
-                                                    $pais);
-                            //Criando o objeto pessoa
-                            $cadastrar->cadastrarCliente($conexao, 
-                                                        $cpf, 
-                                                        $nome, 
-                                                        $telefone,
-                                                        $totalCompras,
-                                                        1);
-                            
-                        }catch(Except $erro){
-                            echo "Algo deu errado!!!<br><br>".$erro;
-                        }//fim do Try...Catch    
-                   
+                            try{
+                                if(isset($_POST['tCPF']) != ""){
+                                $cpf          = $_POST['tCPF'];
+                                $nome         = $_POST['tNome'];
+                                $telefone     = $_POST['tTelefone'];
+                                $rua          = $_POST['tRua'];
+                                $numero       = $_POST['tNumero'];
+                                $complemento  = $_POST['tComplemento'];
+                                $cep          = $_POST['tCEP'];
+                                $bairro       = $_POST['tBairro'];
+                                $cidade       = $_POST['tCidade'];
+                                $estado       = $_POST['tEstado'];
+                                $pais         = $_POST['tPais'];
+                                $totalCompras = $_POST['tCompras'];
+                                //Criando o objeto endereco
+                                $cadastrar->cadastrarEndereco($conexao, 
+                                                        $rua, 
+                                                        $numero, 
+                                                        $complemento, 
+                                                        $bairro,
+                                                        $cep,
+                                                        $cidade,
+                                                        $estado,
+                                                        $pais);
+                                //Criando o objeto pessoa
+                                $cadastrar->cadastrarCliente($conexao, 
+                                                            $cpf, 
+                                                            $nome, 
+                                                            $telefone,
+                                                            $totalCompras,
+                                                            1);
+                                }else{
+                                    echo "Preencha os campos!";
+                                }
+                            }catch(Except $erro){
+                                echo "Algo deu errado! <br><br> $erro";
+                            }//fim do catch
 
                     ?>
                 </button>
