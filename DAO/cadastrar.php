@@ -24,10 +24,6 @@
 
                 //Fechar a conexao
                 mysqli_close($conn);
-                if($result){
-                    echo "<br>Inserido com sucesso!";
-                }
-                return "<br><br>Não Inserido";
             }catch(Exception $erro){
                 return "<br><br>Algo deu errado <br><br>$erro";
             }//fim do catch
@@ -48,6 +44,9 @@
                         '$codigoEndereco')";
                 $result = mysqli_query($conn,$sql);
                 mysqli_close($conn);
+                if($result){
+                    return true;
+                }
             }catch(Exception $erro){
                 return "<br><br>Algo deu errado <br><br> $erro";
             }//fim do try...catch

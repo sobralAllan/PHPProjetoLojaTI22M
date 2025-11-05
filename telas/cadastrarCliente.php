@@ -4,13 +4,16 @@
     require_once("../php/endereco.php");
     require_once("../DAO/conexao.php");
     require_once("../DAO/cadastrar.php");
+    require_once("../DAO/consultar.php");
     use Projeto\php\Cliente;
     use Projeto\php\Endereco;
     use Projeto\DAO\Conexao;
     use Projeto\DAO\Cadastrar;
+    use Projeto\DAO\Consultar;
     //Instanciar as classes
     $conexao = new Conexao();
     $cadastrar = new Cadastrar();
+    $consultar = new Consultar();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,7 +96,7 @@
             </div>
 
             <div class="col">
-                <button type="submit" class="btn btn-primary">Cadastrar
+                <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Cadastrar
                     <?php
                         
                             try{
@@ -110,6 +113,35 @@
                                 $estado       = $_POST['tEstado'];
                                 $pais         = $_POST['tPais'];
                                 $totalCompras = $_POST['tCompras'];
+                                
+                               
+                                }//fim do if
+                            }catch(Except $erro){
+                                echo "Algo deu errado! <br><br> $erro";
+                            }//fim do catch
+
+                    ?>
+                </a>
+            </div>   
+        </div>
+        
+         <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+                        <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastro Cliente</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <?php
+                            echo "Confirma o cadastro?"
+                        ?>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Sim
+                            <?php
+                                if(isset($_POST['tCPF']) != ""){
                                 //Criando o objeto endereco
                                 $cadastrar->cadastrarEndereco($conexao, 
                                                         $rua, 
@@ -121,24 +153,28 @@
                                                         $estado,
                                                         $pais);
                                 //Criando o objeto pessoa
-                                $cadastrar->cadastrarCliente($conexao, 
-                                                            $cpf, 
-                                                            $nome, 
-                                                            $telefone,
-                                                            $totalCompras,
-                                                            1);
-                                }else{
-                                    echo "Preencha os campos!";
+                                $flag = $cadastrar->cadastrarCliente($conexao, 
+                                                                        $cpf, 
+                                                                        $nome, 
+                                                                        $telefone,
+                                                                        $totalCompras,
+                                                                        $consultar->consultarEndereco($conexao));
                                 }
-                            }catch(Except $erro){
-                                echo "Algo deu errado! <br><br> $erro";
-                            }//fim do catch
+                            ?>
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                    </div>
+                    </div>
+                </div>
+            </div><!-- Fim do modal -->
+        </form>    
+                          
+    <button class="btn btn-primary">
+        <a href="index.php" style="color:#fff;text-decoration:none;">Voltar</a>
+    </button>
 
-                    ?>
-                </button>
-                <button type="submit" class="btn btn-primary">Voltar</button>
-            </div>   
-        </div>
-    </form>
+    
+
+
 </body>
 </html>

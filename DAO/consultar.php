@@ -10,7 +10,7 @@
                 $sql    = "select max(codigo) from endereco";
                 $result = mysqli_query($conn, $sql);
                 
-                while($dado = mysqli_fetch_Array($result)){
+                while($dados = mysqli_fetch_Array($result)){
                     return $dados['max(codigo)'];//Retornar o último código de endereço cadastrado
                 }
 
@@ -24,12 +24,13 @@
                 $conn   = $conexao->conectar();
                 $sql    = "select * from cliente C inner join endereco E on 
                            c.codigoEndereco = e.codigo and c.cpf = '$cpf'";
-
+                $flag   = false;
                 $result = mysqli_query($conn, $sql);
                 
                 while($dados = mysqli_fetch_Array($result)){
                     if($dados['cpf'] == $cpf){
-                        echo "<br>CPF: ".$dados['cpf'].
+                        $flag = true;
+                        return "<br>CPF: ".$dados['cpf'].
                              "<br>Nome: ".$dados['nome'].
                              "<br>Telefone: ".$dados['telefone'].
                              "<br>Total de Compras: ".$dados['totalCompras'].
@@ -41,9 +42,9 @@
                              "<br>Estado: ".$dados['estado'].
                              "<br>Pais: ".$dados['pais'].
                              "<br>CEP: ".$dados['cep'];
-                        return;//Encerrar o processo     
                     }//fim do if
                 }//fim do while
+                return $flag;
             }catch(Exception $erro){
                 echo "Algo deu errado!<br><br> $erro";
             }//fim do catch

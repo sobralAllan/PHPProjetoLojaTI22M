@@ -7,6 +7,7 @@
     //Instanciar as variáveis
     $conexao   = new Conexao();
     $consultar = new Consultar();
+    $resultado = "";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,8 +26,28 @@
             <input type="text" class="form-control" id="cpf" name="cpf"/>
         </div>
         <button type="submit" class="btn btn-primary">Consultar
-            <?php $consultar->consultarCliente($conexao, $_POST['cpf']); ?>
+            <?php 
+                if(isset($_POST['cpf']) != ""){
+                    $resultado = $consultar->consultarCliente($conexao, $_POST['cpf']); 
+                }                
+            ?>
         </button> 
     </form>
+    <div class="mb-3">
+        <?php
+            if($resultado == false && isset($_POST['cpf']) != ""){
+                echo $_POST['cpf']." não encontrado!!!!!!!!!!!";
+            }else{
+                echo $resultado;
+            }//fim do resultado
+        ?>
+    </div>
+
+
+
+
+    <button class="btn btn-primary">
+        <a href="index.php" style="color:#fff;text-decoration:none;">Voltar</a>
+    </button>
 </body>
 </html>
